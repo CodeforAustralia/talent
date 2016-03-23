@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/styles/importer.css">
+
+p total developers: #{count}
+a(href="/developer/exportToCSV") Export to CSV
+
+each developer in developers
+	if developer.email
+		div.container--developer
+			p Name: #{developer.name} (#{developer.username})
+			p Company: #{developer.company}
+			p Location: #{developer.location}
+			p Email:
+				a(href="mailto:#{developer.email}") #{developer.email}
+			p Followers: #{developer.followers}
+			p Profile:
+				a(href="#{developer.html_url}" target="_blank") #{developer.html_url}
+			p Blog:
+				a(href=developer.blog_url target="_blank") #{developer.blog_url}
