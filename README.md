@@ -1,10 +1,19 @@
 # Talent
 
+### SETUP
+
+Clone the repo and run `npm install`
+
+### RUNNING THE APP
+
+Use the command `sails lift` to run the app.
+
 ### FEATURES
 
-List all the devs
+Wish list
+- import devs by location
+- click to update all records
 
-Filterable by
+Devs filterable by
 - location
-- activity, ie. contributions
-- followers
+- # followers
