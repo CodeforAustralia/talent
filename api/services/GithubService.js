@@ -7,10 +7,13 @@ module.exports = {
 		var url = GithubAPI + ''
 	},
 
-	getDevelopers: function(currentPage, lastPage) {
+	getDevelopers: function(currentPage, lastPage, location, callback) {
+		// replace spaces with a comma
+		var loc = (location) ? location.replace(" ", "%2C") + ",Australia" : "Australia";
 		var GithubService = this,
 				currentPage = currentPage || 1,
-		    requestUrl = `${GithubAPI}/search/users?q=location%3Asydney&page=${currentPage}`
+		    requestUrl = `${GithubAPI}/search/users?q=location%3A${loc}&page=${currentPage}`;
+				console.log(requestUrl);
 
 		unirest.get(requestUrl)
 					 .type('json')
@@ -21,15 +24,19 @@ module.exports = {
 						 			developerCount = response.body.total_count,
 					 				pageCount = Math.ceil(developerCount / 30)
 
-			 				console.log(`developer count = ${developerCount}`)
+			 				console.log(`developer count = ${developerCount}`);
 
 			 				if (currentPage <= lastPage && currentPage <= pageCount) {
 			 					_.each(developers, function(developer) {
 						 			var id = developer.login;
 						 			GithubService.getInfo(id);
 						 		});
-						 		GithubService.getDevelopers(currentPage + 1, lastPage);
+						 		GithubService.getDevelopers(currentPage + 1, lastPage, location, callback);
 			 				}
+							else {
+								// finish and send the location
+								callback(null, location);
+							}
 					 });
 	},
 

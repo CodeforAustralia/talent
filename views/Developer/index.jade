@@ -2,9 +2,10 @@
 
 if location
 	p #{count} developers from #{location}
+	a(href="/developer/exportToCSV?location=#{location}") Export to CSV	
 else
 	p total developers: #{count}
-a(href="/developer/exportToCSV") Export to CSV
+	a(href="/developer/exportToCSV") Export to CSV
 
 .container--filters
 	form.filters(action="/developer")

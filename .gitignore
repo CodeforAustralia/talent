@@ -1,4 +1,4 @@
 node_modules
 .tags*
 .tmp
-developers.csv
+*.csv
