@@ -2,7 +2,11 @@
 
 if location
 	p #{count} developers from #{location}
-	a(href="/developer/exportToCSV?location=#{location}") Export to CSV	
+	ul
+		li
+			a(href="/developer/exportToCSV?location=#{location}") Export to CSV &nbsp;
+		li
+			a(href="/developer/updateActivity?location=#{location}") Update activity
 else
 	p total developers: #{count}
 	a(href="/developer/exportToCSV") Export to CSV
@@ -39,3 +43,4 @@ each developer in developers
 				a(href="#{developer.html_url}" target="_blank") #{developer.html_url}
 			p Blog:
 				a(href=developer.blog_url target="_blank") #{developer.blog_url}
+			p Activity: #{developer.activity} day(s) in the last year
