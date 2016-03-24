@@ -1,7 +1,29 @@
 <link rel="stylesheet" href="/styles/importer.css">
 
-p total developers: #{count}
+if location
+	p #{count} developers from #{location}
+else
+	p total developers: #{count}
 a(href="/developer/exportToCSV") Export to CSV
+
+.container--filters
+	form.filters(action="/developer")
+		div
+			fieldset.location
+				legend Location filter
+				input(type="text", name="location", placeholder="Filter by location...", size=50)
+			fieldset.followers
+				legend Sort By...
+				select(name="sort_field")
+					option followers
+					option activity
+			fieldset.activity
+				legend Sort By Activity
+				select(name="sort_order")
+					option ASC
+					option DESC
+			fieldset
+				button Filter list
 
 each developer in developers
 	if developer.email

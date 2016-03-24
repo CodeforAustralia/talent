@@ -3,22 +3,31 @@ var csvWriter = require('csv-write-stream'),
 			"location", "email", "html_url", "public_repos", "public_gists",
 			"followers"
 		]}),
-		fs = require('fs')
+		fs = require('fs');
 
 module.exports = {
 	index: function(req, res) {
-		var developers = Developer.find({ email: {'!': ''} })
+		var filters = {email: {'!': ''}};
+		var location = req.query.location;
+    var sort_query = '';
+		if (req.query.location) filters.location = {'contains': location};
+    if (req.query.sort_field){
+      var sort_order = req.query.sort_order.toUpperCase() || "DESC";
+      sort_query = req.query.sort_field + " " + sort_order;
+    }
+
+		var developers = Developer.find(filters, {sort: sort_query})
 											 .then(function(model) {
-											 	 return res.view('developer/index', {
+												 var response = {
 											 	 	developers: model,
 											 	 	count: model.length
-											 	 });
+												 };
+												 if (req.query.location) response.location = location;
+											 	 return res.view('developer/index', response);
 											 })
 											 .catch(function(error) {
 											 	 return negotiate(error);
 											 });
-		 var sortedDevelopers = _.sortBy(developers, 'followers');
-		 return sortedDevelopers;
 	},
 
 	import: function(req, res) {
@@ -28,10 +37,10 @@ module.exports = {
 
 	nuke: function(req, res) {
 		Developer.destroy({}).then(function(model){
-			return res.redirect('developer')
+			return res.redirect('developer');
 		}).catch(function(error) {
 			return res.negotiate(err);
-		})
+		});
 	},
 
 	exportToCSV: function(req, res) {
@@ -60,4 +69,3 @@ module.exports = {
 		});
 	}
 };
-

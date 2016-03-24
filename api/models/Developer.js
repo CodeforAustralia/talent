@@ -15,7 +15,7 @@ module.exports = {
     },
 
     github_id : {
-        type: 'int',
+        type: 'integer',
         defaultsTo: 0
     },
 
@@ -60,22 +60,22 @@ module.exports = {
     },
 
     public_repos: {
-        type: 'int',
+        type: 'integer',
         defaultsTo: 0
     },
 
     public_gists: {
-        type: 'int',
+        type: 'integer',
         defaultsTo: 0
     },
 
     followers: {
-        type: 'int',
+        type: 'integer',
         defaultsTo: 0
     },
 
     following: {
-        type: 'int',
+        type: 'integer',
         defaultsTo: 0
     },
 
@@ -110,4 +110,3 @@ module.exports = {
      }
   }
 };
-
