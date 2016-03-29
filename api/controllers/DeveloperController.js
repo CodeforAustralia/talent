@@ -48,6 +48,26 @@ module.exports = {
 		});
 	},
 
+	updateActivity: function(req, res){
+		var filters = {};
+		if (req.query.location){
+			location = req.query.location.replace(",", " ");
+			filters.location = {'contains':location};
+		}
+
+		Developer.find(filters).then(function(developers) {
+			_.each(developers, function(dev, key){
+				GithubService.updateActivity(dev.username);
+			});
+		}).then(function(){
+			console.log("FINISHED");
+			res.redirect('developer');
+		})
+		.catch(function(error) {
+			console.log(error);
+		});
+	},
+
 	exportToCSV: function(req, res) {
 		var file = 'developers.csv';
 		var filters = {};
@@ -61,7 +81,7 @@ module.exports = {
 		var writer = csvWriter({headers: [
 			 "name", "company", "blog_url",
 			"location", "email", "html_url", "public_repos", "public_gists",
-			"followers"
+			"followers", "activity"
 		]});
 
 		writer.pipe(fs.createWriteStream(file));
@@ -88,7 +108,8 @@ module.exports = {
 						dev.html_url,
 						dev.public_repos,
 						dev.public_gists,
-						dev.followers
+						dev.followers,
+						dev.activity
 					]);
 				}
 			});
@@ -97,12 +118,9 @@ module.exports = {
 			writer.end();
 			writer = null;
 			res.redirect('developer');
-		});
-		/*}).then(function() {
-			writer.end();
-			res.redirect('developer');
-		}).catch(function(error) {
+		})
+		.catch(function(error) {
 			console.log(error);
-		});*/
+		});
 	}
 };

@@ -107,6 +107,11 @@ module.exports = {
     repos_url : {
         type: 'string',
         defaultsTo: ''
-     }
+    },
+
+    activity: {
+        type: 'integer',
+        defaultsTo: 0
+    },
   }
 };
