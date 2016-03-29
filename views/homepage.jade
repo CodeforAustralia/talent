@@ -1,8 +1,12 @@
 h1 Developers
 ul
 	li
-		a(href="developer/import") get all
-	li
 		a(href="developer/nuke") destroy all
 	li
 		a(href="developer") show all
+
+h2 Get developers
+form(action="developer/import")
+	fieldset
+		input(type="text", name="location", placeholder="Enter a location to limit the results")
+		button Get developers
